@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Выравнивание по левому краю */
+    padding: 0 8%;
+    background: #fff;
+    box-shadow: 0 0 60px #ffb1b1;
+    position: relative;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo_of_the_site {
+    width: 80px;
+    height: auto;
+}
+
+.site-name {
+    font-size: 1.5rem;
+    color: #e91e63;
+    margin-left: 10px;
+}
+
+.header ul {
+    display: flex;
+    margin-left: auto; /* Отодвигаем навигацию вправо */
+}
+
+.header ul li {
+    margin: 0 16px;
+}
+
+.header ul li a {
+    color: #1c1c1c;
+    transition: 0.6s;
+}
+
+.header ul li a:hover {
+    color: #4d6c8e;
+}
+
+.hero {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center; /* Центрируем изображение и текст по вертикали */
+    justify-content: center; /* Центрируем изображение и текст по горизонтали */
+    gap: 40px; /* Добавляет расстояние между изображением и текстом */
+    padding: 0 8%;
+    position: relative;
+}
+
+.hero .image {
+    max-width: 45%; /* Ограничиваем ширину изображения */
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.hero .image img {
+    width: 100%;
+    height: auto;
+}
+
+.hero .content {
+    max-width: 45%; /* Ограничиваем ширину текстового блока */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hero .content h1 {
+    font-size: 2.5rem;
+    color: #e91e63;
+}
+
+.hero .content h4 {
+    font-size: 1.8rem;
+    color: #e91e63;
+}
+
+.hero .content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.hero .content button {
+    padding: 10px 20px;
+    background-color: #e91e63;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.hero .content button:hover {
+    background-color: #c2185b;
+}
