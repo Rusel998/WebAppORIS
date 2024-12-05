@@ -10,36 +10,45 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
     private final DataSource dataSource;
     private final RowMapper<User> userRowMapper;
+
+    private final static String DELETE = "DELETE FROM users WHERE id = ?";
+    private final static String VALIDATE = "SELECT * FROM users WHERE email = ?";
+    private final static String SAVE = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    private final static String FIND_ALL = "SELECT * FROM users";
+    private final static String FIND_BY_ID = "SELECT * FROM users WHERE id = ?";
+    private final static String UPDATE = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
+
     @Override
-    public void save(String username, String email, String password) {
-        System.out.println("Метод save() вызван с параметрами:");
-        System.out.println("username: " + username);
-        System.out.println("email: " + email);
-        System.out.println("password: " + password);
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        try (Connection connection = dataSource.getConnection() ){
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+    public Optional<User> findById(Long id) {
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)){
 
-            statement.setString(1, username);
-            statement.setString(2, email);
-            statement.setString(3, hashedPassword);
-
-            statement.executeUpdate();
+            preparedStatement.setLong(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    User user = userRowMapper.mapRow(rs);
+                    return Optional.of(user);
+                }
+            }
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        return Optional.empty();
     }
+
     @Override
     public User validateUser(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(VALIDATE)) {
 
             statement.setString(1, email);
 
@@ -59,5 +68,62 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
 
+    @Override
+    public void save(User type) {
+        String hashedPassword = BCrypt.hashpw(type.getPassword(), BCrypt.gensalt());
+        try (Connection connection = dataSource.getConnection() ){
+            PreparedStatement statement = connection.prepareStatement(SAVE);
 
+            statement.setString(1, type.getUsername());
+            statement.setString(2, type.getEmail());
+            statement.setString(3, hashedPassword);
+
+            statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE)){
+            preparedStatement.setLong(1, id);
+            return preparedStatement.executeUpdate() > 0;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                User user = userRowMapper.mapRow(rs);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while retrieving users", e);
+        }
+        return users;
+    }
+
+    @Override
+    public boolean update(User user) {
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
+
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setLong(4, user.getId());
+
+            return preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }

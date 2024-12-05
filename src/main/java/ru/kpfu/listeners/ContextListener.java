@@ -1,9 +1,9 @@
 package ru.kpfu.listeners;
 
 import ru.kpfu.config.DataSourceConfiguration;
-import ru.kpfu.mapper.UserMapper;
-import ru.kpfu.repositories.UserRepository;
-import ru.kpfu.repositories.impl.UserRepositoryImpl;
+import ru.kpfu.mapper.*;
+import ru.kpfu.repositories.*;
+import ru.kpfu.repositories.impl.*;
 import ru.kpfu.services.security.SecurityService;
 import ru.kpfu.services.security.impl.SecurityServiceImpl;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @WebListener
-public class Initializer implements ServletContextListener {
+public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Properties properties = new Properties();
@@ -31,7 +31,18 @@ public class Initializer implements ServletContextListener {
                 new DataSourceConfiguration(properties);
 
         UserRepository userRepository =
-                new UserRepositoryImpl(configuration.customDatasource(), new UserMapper());
+                new UserRepositoryImpl(configuration.customDatasource(), new UserRowMapper());
+        RatingRepository ratingRepository =
+                new RatingRepositoryImpl(configuration.customDatasource(), new RatingRowMapper());
+        ProfileRepository profileRepository =
+                new ProfileRepositoryImpl(configuration.customDatasource(), new ProfileRowMapper());
+        PhotoRepository photoRepository =
+                new PhotoRepositoryImpl(configuration.customDatasource(), new PhotoRowMapper());
+        ComplaintRepository complaintRepository =
+                new ComplaintRepositoryImpl(configuration.customDatasource(), new ComplaintRowMapper());
+        ActivityRepository activityRepository =
+                new ActivityRepositoryImpl(configuration.customDatasource(), new ActivityRowMapper());
+
 
         SecurityService securityService =
                 new SecurityServiceImpl(userRepository);

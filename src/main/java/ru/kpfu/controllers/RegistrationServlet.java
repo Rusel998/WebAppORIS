@@ -1,5 +1,6 @@
 package ru.kpfu.controllers;
 
+import ru.kpfu.models.User;
 import ru.kpfu.repositories.UserRepository;
 
 import javax.servlet.ServletException;
@@ -30,7 +31,8 @@ public class RegistrationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        userRepository.save(username, email, password);
+        User user = new User(null, username, email, password);
+        userRepository.save(user);
         response.sendRedirect(getServletContext().getContextPath() + "/login");
     }
 }

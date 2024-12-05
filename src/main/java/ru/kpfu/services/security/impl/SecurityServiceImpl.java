@@ -31,18 +31,16 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public boolean signIn(HttpServletRequest req, String email, String password) throws SQLException {
-        // Используем обновленный метод validateUser
         User user = userRepository.validateUser(email, password);
 
         if (user != null) {
-            // Сохраняем информацию о пользователе в сессию
             req.getSession().setAttribute("email", user.getEmail());
             req.getSession().setAttribute("username", user.getUsername());
-            req.getSession().setAttribute("userId", user.getId()); // Можно сохранить и ID пользователя
+            req.getSession().setAttribute("userId", user.getId());
             return true;
         }
 
-        return false; // Возвращаем false, если пользователь не прошел проверку
+        return false;
     }
 }
 

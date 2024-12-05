@@ -5,7 +5,7 @@ import ru.kpfu.models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserMapper implements RowMapper<User>{
+public class UserRowMapper implements RowMapper<User>{
     @Override
     public User mapRow(ResultSet resultSet) throws SQLException {
         return User.builder()
