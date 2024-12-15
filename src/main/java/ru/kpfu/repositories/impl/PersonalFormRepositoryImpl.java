@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import ru.kpfu.models.PersonalForm;
 import ru.kpfu.repositories.mapper.RowMapper;
 import ru.kpfu.repositories.PersonalFormRepository;
+
+import javax.naming.SizeLimitExceededException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,6 +18,10 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
     private final DataSource dataSource;
     private final RowMapper<PersonalForm> profileRowMapper;
 
+    private final static String FIND_ALL_BY_INTEREST_ID = "SELECT pf.* FROM personalform pf " +
+            "JOIN user_interests ui ON ui.userid = pf.userid " +
+            "WHERE ui.interestid = ?";
+    private final static String FIND_USER_BY_ID =  "SELECT * FROM personalform WHERE userid = ?";
     private final static String FIND_BY_ID = "SELECT * FROM personalform WHERE id = ?";
     private final static String FIND_ALL = "SELECT * FROM personalform";
     private final static String SAVE = "INSERT INTO personalform (userid, bio, age, birthdate, gender, profileviews) VALUES (?, ?, ?, ?, ?, ?)";
@@ -41,6 +47,44 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
     }
 
     @Override
+    public Optional<PersonalForm> findUserById(Long id) throws SizeLimitExceededException {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)) {
+
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                PersonalForm personalForm = profileRowMapper.mapRow(resultSet);
+                return Optional.of(personalForm);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<PersonalForm> findAllByInterestId(Long interestId) {
+        // Запрос выберет все анкеты пользователей,
+        // у которых есть связь в user_interests с данным interestId
+
+        List<PersonalForm> forms = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_INTEREST_ID)) {
+            preparedStatement.setLong(1, interestId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                forms.add(profileRowMapper.mapRow(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while finding personal forms by interestId", e);
+        }
+        return forms;
+    }
+
+
+    @Override
     public List<PersonalForm> findAll() {
         List<PersonalForm> personalForms = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
@@ -60,25 +104,19 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
     @Override
     public void save(PersonalForm personalForm) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setLong(1, personalForm.getUserId());
-            preparedStatement.setString(2, personalForm.getBio());
-            preparedStatement.setInt(3, personalForm.getAge());
-            preparedStatement.setDate(4, (Date) personalForm.getBirthdate());
-            preparedStatement.setString(5, personalForm.getGender());
-            preparedStatement.setInt(6, personalForm.getProfileViews());
-
-            preparedStatement.executeUpdate();
-
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                personalForm.setId(generatedKeys.getLong(1));
-            }
+             PreparedStatement statement = connection.prepareStatement(SAVE)) {
+            statement.setLong(1, personalForm.getUserId());
+            statement.setString(2, personalForm.getBio());
+            statement.setInt(3, personalForm.getAge());
+            statement.setDate(4, new java.sql.Date(personalForm.getBirthdate().getTime()));
+            statement.setString(5, personalForm.getGender());
+            statement.setInt(6, personalForm.getProfileViews());
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error while saving personal form", e);
+            e.printStackTrace();
         }
     }
+
 
     @Override
     public boolean update(PersonalForm personalForm) {

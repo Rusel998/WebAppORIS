@@ -6,9 +6,13 @@ import ru.kpfu.repositories.*;
 import ru.kpfu.repositories.impl.*;
 import ru.kpfu.security.SecurityService;
 import ru.kpfu.security.impl.SecurityServiceImpl;
+import ru.kpfu.services.InterestService;
 import ru.kpfu.services.PersonalFormService;
+import ru.kpfu.services.UserInterestsService;
 import ru.kpfu.services.UserService;
+import ru.kpfu.services.impl.InterestServiceImpl;
 import ru.kpfu.services.impl.PersonalFormServiceImpl;
+import ru.kpfu.services.impl.UserInterestsServiceImpl;
 import ru.kpfu.services.impl.UserServiceImpl;
 
 import javax.servlet.ServletContext;
@@ -40,8 +44,16 @@ public class ContextListener implements ServletContextListener {
                 new UserRepositoryImpl(dataSource, new UserRowMapper());
         PersonalFormRepository personalFormRepository =
                 new PersonalFormRepositoryImpl(dataSource, new PersonalFormRowMapper());
+        InterestRepository interestRepository =
+                new InterestRepositoryImpl(dataSource, new InterestRowMapper());
+        UserInterestsRepository userInterestsRepository =
+                new UserInterestsRepositoryImpl(dataSource);
 
 
+        UserInterestsService userInterestsService =
+                new UserInterestsServiceImpl(userInterestsRepository);
+        InterestService interestService =
+                new InterestServiceImpl(interestRepository);
         PersonalFormService personalFormService =
                 new PersonalFormServiceImpl(personalFormRepository);
         UserService userService =
@@ -53,6 +65,8 @@ public class ContextListener implements ServletContextListener {
 
         ServletContext servletContext = sce.getServletContext();
 
+        servletContext.setAttribute("userInterestsService", userInterestsService);
+        servletContext.setAttribute("interestService", interestService);
         servletContext.setAttribute("personalFormService", personalFormService);
         servletContext.setAttribute("userService", userService);
         servletContext.setAttribute("securityService", securityService);

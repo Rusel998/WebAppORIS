@@ -16,13 +16,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
-        // Хэшируем пароль при добавлении нового пользователя
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(hashedPassword);
-        // Если роль не установлена, по умолчанию "MEMBER"
-        if (user.getRole() == null || user.getRole().isEmpty()) {
-            user.setRole("MEMBER");
-        }
         userRepository.save(user);
     }
 
@@ -48,4 +43,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.delete(id);
     }
 
+    @Override
+    public boolean updateUser(User user) {
+        return userRepository.update(user);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }
+

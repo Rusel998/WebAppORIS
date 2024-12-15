@@ -6,6 +6,8 @@ import ru.kpfu.repositories.PersonalFormRepository;
 import ru.kpfu.services.PersonalFormService;
 
 import javax.naming.SizeLimitExceededException;
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,32 +16,37 @@ public class PersonalFormServiceImpl implements PersonalFormService {
     private final PersonalFormRepository personalFormRepository;
 
     @Override
-    public List<PersonalForm> getAllForms() {
-        return personalFormRepository.findAll();
-    }
-
-    @Override
-    public Optional<PersonalForm> getFormById(Long id) throws SizeLimitExceededException {
+    public Optional<PersonalForm> findById(Long id) throws SizeLimitExceededException {
         return personalFormRepository.findById(id);
     }
 
     @Override
-    public void createForm(PersonalForm personalForm, Long userId) throws Exception {
-        Optional<PersonalForm> existingForm = personalFormRepository.findById(userId);
-        if (existingForm.isPresent()) {
-            throw new Exception("You already have a personal form!");
-        }
-        personalForm.setUserId(userId);
+    public Optional<PersonalForm> findUserById(Long userId) throws SizeLimitExceededException {
+        return personalFormRepository.findUserById(userId);
+    }
+
+    @Override
+    public List<PersonalForm> findAll() {
+        return personalFormRepository.findAll();
+    }
+
+    @Override
+    public void save(PersonalForm personalForm) {
         personalFormRepository.save(personalForm);
     }
 
     @Override
-    public boolean updateForm(PersonalForm personalForm) {
+    public boolean update(PersonalForm personalForm) {
         return personalFormRepository.update(personalForm);
     }
 
     @Override
-    public boolean deleteForm(Long id) {
+    public boolean delete(Long id) {
         return personalFormRepository.delete(id);
+    }
+
+    @Override
+    public List<PersonalForm> findAllByInterestId(Long interestId) {
+        return personalFormRepository.findAllByInterestId(interestId);
     }
 }
