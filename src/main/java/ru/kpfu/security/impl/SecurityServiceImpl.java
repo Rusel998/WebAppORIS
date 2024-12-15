@@ -1,18 +1,20 @@
-package ru.kpfu.services.security.impl;
+package ru.kpfu.security.impl;
 
 import lombok.AllArgsConstructor;
 import ru.kpfu.models.User;
 import ru.kpfu.repositories.UserRepository;
-import ru.kpfu.services.security.SecurityService;
+import ru.kpfu.security.SecurityService;
+import ru.kpfu.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class SecurityServiceImpl implements SecurityService {
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public Map<String, Object> getUser(HttpServletRequest req) {
@@ -31,15 +33,12 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public boolean signIn(HttpServletRequest req, String email, String password) throws SQLException {
-        User user = userRepository.validateUser(email, password);
-
-        if (user != null) {
-            req.getSession().setAttribute("email", user.getEmail());
-            req.getSession().setAttribute("username", user.getUsername());
-            req.getSession().setAttribute("userId", user.getId());
+        Optional<User> user = userService.validateUser(email, password);
+        if (user.isPresent()) {
+            req.getSession().setAttribute("username", user.get().getUsername());
+            req.getSession().setAttribute("email", user.get().getEmail());
             return true;
         }
-
         return false;
     }
 }

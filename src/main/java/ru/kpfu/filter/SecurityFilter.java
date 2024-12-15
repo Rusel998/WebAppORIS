@@ -1,6 +1,6 @@
 package ru.kpfu.filter;
 
-import ru.kpfu.services.security.SecurityService;
+import ru.kpfu.security.SecurityService;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;

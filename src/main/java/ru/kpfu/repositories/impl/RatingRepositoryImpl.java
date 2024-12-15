@@ -1,14 +1,11 @@
 package ru.kpfu.repositories.impl;
 
 import lombok.RequiredArgsConstructor;
-import ru.kpfu.mapper.RowMapper;
+import ru.kpfu.repositories.mapper.RowMapper;
 import ru.kpfu.models.Rating;
 import ru.kpfu.repositories.RatingRepository;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,10 +18,10 @@ public class RatingRepositoryImpl implements RatingRepository {
     private final RowMapper<Rating> ratingRowMapper;
 
     private final static String DELETE = "DELETE FROM rating WHERE id = ?";
-    private final static String SAVE = "INSERT INTO rating (userId, ratedUserId, rating, comment) VALUES (?, ?, ?, ?)";
+    private final static String SAVE = "INSERT INTO rating (userId, ratedUserId, rating, comment, date) VALUES (?, ?, ?, ?, ?)";
     private final static String FIND_ALL = "SELECT * FROM rating";
     private final static String FIND_BY_ID = "SELECT * FROM rating WHERE id = ?";
-    private final static String UPDATE = "UPDATE rating SET rating = ?, comment = ? WHERE id = ?";
+    private final static String UPDATE = "UPDATE rating SET rating = ?, comment = ?, date = ? WHERE id = ?";
 
     @Override
     public Optional<Rating> findById(Long id) {
@@ -54,6 +51,7 @@ public class RatingRepositoryImpl implements RatingRepository {
             statement.setLong(2, type.getRatedUserId());
             statement.setInt(3, type.getRating());
             statement.setString(4, type.getComment());
+            statement.setDate(5, (Date) type.getDate());
 
             statement.executeUpdate();
         }catch (SQLException e){
@@ -95,7 +93,8 @@ public class RatingRepositoryImpl implements RatingRepository {
 
             preparedStatement.setLong(1, type.getRating());
             preparedStatement.setString(2, type.getComment());
-            preparedStatement.setLong(3, type.getId());
+            preparedStatement.setDate(3, (Date) type.getDate());
+            preparedStatement.setLong(4, type.getId());
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e){

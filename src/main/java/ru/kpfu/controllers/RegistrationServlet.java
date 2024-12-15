@@ -2,6 +2,7 @@ package ru.kpfu.controllers;
 
 import ru.kpfu.models.User;
 import ru.kpfu.repositories.UserRepository;
+import ru.kpfu.services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,12 +14,12 @@ import java.io.IOException;
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        userRepository = (UserRepository) getServletContext().getAttribute("userRepository");
+        userService = (UserService) getServletContext().getAttribute("userService");
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,8 +32,8 @@ public class RegistrationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        User user = new User(null, username, email, password);
-        userRepository.save(user);
+        User user = new User(null, username, email, password, null);
+        userService.addUser(user);
         response.sendRedirect(getServletContext().getContextPath() + "/login");
     }
 }

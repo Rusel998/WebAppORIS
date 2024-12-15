@@ -1,6 +1,6 @@
 package ru.kpfu.controllers;
 
-import ru.kpfu.services.security.SecurityService;
+import ru.kpfu.security.SecurityService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

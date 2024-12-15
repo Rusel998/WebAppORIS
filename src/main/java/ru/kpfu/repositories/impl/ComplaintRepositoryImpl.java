@@ -1,7 +1,7 @@
 package ru.kpfu.repositories.impl;
 
 import lombok.RequiredArgsConstructor;
-import ru.kpfu.mapper.RowMapper;
+import ru.kpfu.repositories.mapper.RowMapper;
 import ru.kpfu.models.Complaint;
 import ru.kpfu.repositories.ComplaintRepository;
 
@@ -20,10 +20,10 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
     private final RowMapper<Complaint> complaintRowMapper;
 
     private final static String DELETE = "DELETE FROM complaint WHERE id = ?";
-    private final static String SAVE = "INSERT INTO complaint (complainantId, offenderId, reason, comment, dateTime) VALUES (?, ?, ?, ?, ?)";
+    private final static String SAVE = "INSERT INTO complaint (complainantId, offenderId, reason, dateTime) VALUES (?, ?, ?, ?)";
     private final static String FIND_ALL = "SELECT * FROM complaint";
     private final static String FIND_BY_ID = "SELECT * FROM complaint WHERE id = ?";
-    private final static String UPDATE = "UPDATE complaint SET offenderId = ?, reason = ?, comment = ?, dateTime = ? WHERE id = ?";
+    private final static String UPDATE = "UPDATE complaint SET offenderId = ?, reason = ?, dateTime = ? WHERE id = ?";
 
     @Override
     public Optional<Complaint> findById(Long id) {
@@ -48,8 +48,7 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
             statement.setLong(1, complaint.getComplainantId());
             statement.setLong(2, complaint.getOffenderId());
             statement.setString(3, complaint.getReason());
-            statement.setString(4, complaint.getComment());
-            statement.setObject(5, complaint.getDateTime());
+            statement.setObject(4, complaint.getDatetime());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,9 +87,8 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
             preparedStatement.setLong(1, complaint.getOffenderId());
             preparedStatement.setString(2, complaint.getReason());
-            preparedStatement.setString(3, complaint.getComment());
-            preparedStatement.setObject(4, complaint.getDateTime());
-            preparedStatement.setLong(5, complaint.getId());
+            preparedStatement.setObject(3, complaint.getDatetime());
+            preparedStatement.setLong(4, complaint.getId());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);

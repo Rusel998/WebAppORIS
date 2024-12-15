@@ -1,4 +1,4 @@
-package ru.kpfu.mapper;
+package ru.kpfu.repositories.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

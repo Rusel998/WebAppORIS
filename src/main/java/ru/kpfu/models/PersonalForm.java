@@ -10,10 +10,12 @@ import java.util.Date;
 @Getter
 @Builder
 @ToString
-public class Profile {
+public class PersonalForm {
     private Long id;
     private Long userId;
     private String bio;
     private Integer age;
+    private Date birthdate;
     private String gender;
+    private Integer profileViews;
 }

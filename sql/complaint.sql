@@ -2,11 +2,10 @@ drop table if exists complaint;
 
 CREATE TABLE complaint (
                            id serial PRIMARY KEY,
-                           complainantId BIGINT NOT NULL,
-                           offenderId BIGINT NOT NULL,
+                           complainantid BIGINT NOT NULL, -- кто жалуется
+                           personalFormId BIGINT NOT NULL,    -- на какую анкету жалуются
                            reason TEXT NOT NULL,
-                           comment TEXT,
-                           dateTime TIMESTAMP NOT NULL,
-                           FOREIGN KEY (complainantId) REFERENCES users(id),
-                           FOREIGN KEY (offenderId) REFERENCES users(id)
+                           datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                           FOREIGN KEY (complainantid) REFERENCES users (id),
+                           FOREIGN KEY (personalFormId) REFERENCES personalform (id)
 );

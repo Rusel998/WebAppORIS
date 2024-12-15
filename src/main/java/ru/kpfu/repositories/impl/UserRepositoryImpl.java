@@ -2,7 +2,7 @@ package ru.kpfu.repositories.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
-import ru.kpfu.mapper.RowMapper;
+import ru.kpfu.repositories.mapper.RowMapper;
 import ru.kpfu.models.User;
 import ru.kpfu.repositories.UserRepository;
 import javax.sql.DataSource;
@@ -22,15 +22,15 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final static String DELETE = "DELETE FROM users WHERE id = ?";
     private final static String VALIDATE = "SELECT * FROM users WHERE email = ?";
-    private final static String SAVE = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    private final static String SAVE = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
     private final static String FIND_ALL = "SELECT * FROM users";
     private final static String FIND_BY_ID = "SELECT * FROM users WHERE id = ?";
-    private final static String UPDATE = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
+    private final static String UPDATE = "UPDATE users SET username = ?, email = ?, password = ?, role = ? WHERE id = ?";
 
     @Override
     public Optional<User> findById(Long id) {
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)){
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)){
 
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
@@ -39,58 +39,52 @@ public class UserRepositoryImpl implements UserRepository {
                     return Optional.of(user);
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             throw new RuntimeException(e);
         }
         return Optional.empty();
     }
 
     @Override
-    public User validateUser(String email, String password) {
+    public Optional<User> findByEmail(String email) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(VALIDATE)) {
 
             statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String hashedPassword = resultSet.getString("password");
-                    if (BCrypt.checkpw(password, hashedPassword)) {
-                        return userRowMapper.mapRow(resultSet);
-                    }
-                }
+            if (resultSet.next()) {
+                return Optional.of(userRowMapper.mapRow(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to validate user", e);
+            throw new RuntimeException("Error while validating user", e);
         }
-        return null;
+        return Optional.empty();
     }
 
-
     @Override
-    public void save(User type) {
-        String hashedPassword = BCrypt.hashpw(type.getPassword(), BCrypt.gensalt());
-        try (Connection connection = dataSource.getConnection() ){
-            PreparedStatement statement = connection.prepareStatement(SAVE);
+    public void save(User user) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SAVE)) {
 
-            statement.setString(1, type.getUsername());
-            statement.setString(2, type.getEmail());
-            statement.setString(3, hashedPassword);
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getRole());
 
             statement.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while saving user", e);
         }
     }
 
     @Override
     public boolean delete(Long id) {
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE)){
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE)){
             preparedStatement.setLong(1, id);
             return preparedStatement.executeUpdate() > 0;
-        }catch (SQLException e){
+        } catch (SQLException e){
             throw new RuntimeException(e);
         }
     }
@@ -114,12 +108,13 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean update(User user) {
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
 
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setLong(4, user.getId());
+            preparedStatement.setString(4, user.getRole());
+            preparedStatement.setLong(5, user.getId());
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e){

@@ -1,16 +1,21 @@
 package ru.kpfu.listeners;
 
 import ru.kpfu.config.DataSourceConfiguration;
-import ru.kpfu.mapper.*;
+import ru.kpfu.repositories.mapper.Impl.*;
 import ru.kpfu.repositories.*;
 import ru.kpfu.repositories.impl.*;
-import ru.kpfu.services.security.SecurityService;
-import ru.kpfu.services.security.impl.SecurityServiceImpl;
+import ru.kpfu.security.SecurityService;
+import ru.kpfu.security.impl.SecurityServiceImpl;
+import ru.kpfu.services.PersonalFormService;
+import ru.kpfu.services.UserService;
+import ru.kpfu.services.impl.PersonalFormServiceImpl;
+import ru.kpfu.services.impl.UserServiceImpl;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -29,29 +34,27 @@ public class ContextListener implements ServletContextListener {
 
         DataSourceConfiguration configuration =
                 new DataSourceConfiguration(properties);
+        DataSource dataSource = configuration.customDatasource();
 
         UserRepository userRepository =
-                new UserRepositoryImpl(configuration.customDatasource(), new UserRowMapper());
-        RatingRepository ratingRepository =
-                new RatingRepositoryImpl(configuration.customDatasource(), new RatingRowMapper());
-        ProfileRepository profileRepository =
-                new ProfileRepositoryImpl(configuration.customDatasource(), new ProfileRowMapper());
-        PhotoRepository photoRepository =
-                new PhotoRepositoryImpl(configuration.customDatasource(), new PhotoRowMapper());
-        ComplaintRepository complaintRepository =
-                new ComplaintRepositoryImpl(configuration.customDatasource(), new ComplaintRowMapper());
-        ActivityRepository activityRepository =
-                new ActivityRepositoryImpl(configuration.customDatasource(), new ActivityRowMapper());
+                new UserRepositoryImpl(dataSource, new UserRowMapper());
+        PersonalFormRepository personalFormRepository =
+                new PersonalFormRepositoryImpl(dataSource, new PersonalFormRowMapper());
 
+
+        PersonalFormService personalFormService =
+                new PersonalFormServiceImpl(personalFormRepository);
+        UserService userService =
+                new UserServiceImpl(userRepository);
 
         SecurityService securityService =
-                new SecurityServiceImpl(userRepository);
+                new SecurityServiceImpl(userService);
 
 
         ServletContext servletContext = sce.getServletContext();
 
-        servletContext.setAttribute("userRepository", userRepository);
-
+        servletContext.setAttribute("personalFormService", personalFormService);
+        servletContext.setAttribute("userService", userService);
         servletContext.setAttribute("securityService", securityService);
     }
 }

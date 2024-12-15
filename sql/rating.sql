@@ -2,10 +2,11 @@ drop table if exists rating;
 
 CREATE TABLE rating (
                         id serial PRIMARY KEY,
-                        userId BIGINT NOT NULL,
-                        ratedUserId BIGINT NOT NULL,
-                        rating INT NOT NULL,
+                        userid BIGINT NOT NULL,         -- кто оценивает
+                        rateduserid BIGINT NOT NULL,    -- кого оценивают
+                        rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
                         comment TEXT,
-                        FOREIGN KEY (userId) REFERENCES users(id),
-                        FOREIGN KEY (ratedUserId) REFERENCES users(id)
+                        date DATE DEFAULT CURRENT_DATE,
+                        FOREIGN KEY (userid) REFERENCES users (id),
+                        FOREIGN KEY (rateduserid) REFERENCES users (id)
 );

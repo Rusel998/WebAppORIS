@@ -1,5 +1,6 @@
-package ru.kpfu.mapper;
+package ru.kpfu.repositories.mapper.Impl;
 
+import ru.kpfu.repositories.mapper.RowMapper;
 import ru.kpfu.models.Rating;
 
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ public class RatingRowMapper implements RowMapper<Rating> {
                 .ratedUserId(resultSet.getLong("ratedUserId"))
                 .rating(resultSet.getInt("rating"))
                 .comment(resultSet.getString("comment"))
+                .date(resultSet.getDate("date"))
                 .build();
     }
 }

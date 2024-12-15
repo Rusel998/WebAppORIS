@@ -1,12 +1,14 @@
-package ru.kpfu.mapper;
+package ru.kpfu.repositories.mapper.Impl;
 
+import ru.kpfu.repositories.mapper.RowMapper;
 import ru.kpfu.models.Complaint;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class ComplaintRowMapper implements RowMapper<Complaint>{
+public class ComplaintRowMapper implements RowMapper<Complaint> {
     @Override
     public Complaint mapRow(ResultSet resultSet) throws SQLException {
         return Complaint.builder()
@@ -14,8 +16,7 @@ public class ComplaintRowMapper implements RowMapper<Complaint>{
                 .complainantId(resultSet.getLong("complainantId"))
                 .offenderId(resultSet.getLong("offenderId"))
                 .reason(resultSet.getString("reason"))
-                .comment(resultSet.getString("comment"))
-                .dateTime(resultSet.getObject("dateTime", LocalDateTime.class))
+                .datetime(resultSet.getObject("dateTime", java.security.Timestamp.class))
                 .build();
     }
 }

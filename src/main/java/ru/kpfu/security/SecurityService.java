@@ -1,4 +1,4 @@
-package ru.kpfu.services.security;
+package ru.kpfu.security;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;

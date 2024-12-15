@@ -2,6 +2,7 @@ package ru.kpfu.models;
 
 import lombok.*;
 
+import java.security.Timestamp;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -14,6 +15,5 @@ public class Complaint {
     private Long complainantId;
     private Long offenderId;
     private String reason;
-    private String comment;
-    private LocalDateTime dateTime;
+    private Timestamp datetime;
 }
