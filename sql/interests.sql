@@ -13,3 +13,4 @@ CREATE TABLE user_interests (
                                 FOREIGN KEY (interestid) REFERENCES interests (id),
                                 UNIQUE (formId, interestid)
 );
+INSERT INTO interests (name) VALUES ('Программирование'), ('Игры'), ('Музыка');

@@ -22,10 +22,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final static String DELETE = "DELETE FROM users WHERE id = ?";
     private final static String VALIDATE = "SELECT * FROM users WHERE email = ?";
-    private final static String SAVE = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
+    private final static String SAVE = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
     private final static String FIND_ALL = "SELECT * FROM users";
     private final static String FIND_BY_ID = "SELECT * FROM users WHERE id = ?";
-    private final static String UPDATE = "UPDATE users SET username = ?, email = ?, password = ?, role = ? WHERE id = ?";
+    private final static String UPDATE = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
 
     @Override
     public Optional<User> findById(Long id) {
@@ -70,7 +70,6 @@ public class UserRepositoryImpl implements UserRepository {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
-            statement.setString(4, user.getRole());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -113,8 +112,7 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setString(4, user.getRole());
-            preparedStatement.setLong(5, user.getId());
+            preparedStatement.setLong(4, user.getId());
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e){

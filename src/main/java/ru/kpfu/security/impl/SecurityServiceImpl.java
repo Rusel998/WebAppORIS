@@ -21,6 +21,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (isSigned(req)) {
             Map<String, Object> user = new HashMap<>();
             user.put("username", req.getSession().getAttribute("username"));
+            user.put("email", req.getSession().getAttribute("email"));
             return user;
         }
         return null;
