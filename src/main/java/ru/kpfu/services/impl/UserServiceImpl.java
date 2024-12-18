@@ -2,6 +2,7 @@ package ru.kpfu.services.impl;
 
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
+import ru.kpfu.dto.UserDto;
 import ru.kpfu.models.User;
 import ru.kpfu.repositories.UserRepository;
 import ru.kpfu.services.UserService;
@@ -51,6 +52,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public User convertUserDtoToUser(UserDto userDto) {
+        return new User(
+                null,
+                userDto.getUsername(),
+                userDto.getEmail(),
+                userDto.getPassword(),
+                null
+        );
     }
 }
 

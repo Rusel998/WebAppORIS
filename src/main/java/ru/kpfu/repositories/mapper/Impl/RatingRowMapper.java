@@ -15,8 +15,7 @@ public class RatingRowMapper implements RowMapper<Rating> {
                 .userId(resultSet.getLong("userId"))
                 .ratedUserId(resultSet.getLong("ratedUserId"))
                 .rating(resultSet.getInt("rating"))
-                .comment(resultSet.getString("comment"))
-                .date(resultSet.getDate("date"))
+                .date(resultSet.getTimestamp("date"))
                 .build();
     }
 }

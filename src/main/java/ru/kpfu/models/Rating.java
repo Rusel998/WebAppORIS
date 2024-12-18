@@ -3,7 +3,7 @@ package ru.kpfu.models;
 
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @Setter
@@ -15,6 +15,5 @@ public class Rating {
     private Long userId;
     private Long ratedUserId;
     private Integer rating;
-    private String comment;
-    private Date date;
+    private Timestamp date;
 }

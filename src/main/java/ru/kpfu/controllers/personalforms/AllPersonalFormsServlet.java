@@ -5,6 +5,7 @@ import ru.kpfu.models.PersonalForm;
 import ru.kpfu.models.User;
 import ru.kpfu.services.InterestService;
 import ru.kpfu.services.PersonalFormService;
+import ru.kpfu.services.RatingService;
 import ru.kpfu.services.UserService;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ public class AllPersonalFormsServlet extends HttpServlet {
     private PersonalFormService personalFormService;
     private UserService userService;
     private InterestService interestService;
+    private RatingService ratingService;
 
     @Override
     public void init() throws ServletException {
@@ -30,6 +32,7 @@ public class AllPersonalFormsServlet extends HttpServlet {
         personalFormService = (PersonalFormService) getServletContext().getAttribute("personalFormService");
         userService = (UserService) getServletContext().getAttribute("userService");
         interestService = (InterestService) getServletContext().getAttribute("interestService");
+        ratingService = (RatingService) getServletContext().getAttribute("ratingService");
     }
 
     @Override
@@ -53,28 +56,37 @@ public class AllPersonalFormsServlet extends HttpServlet {
             allForms = personalFormService.findAll();
         }
 
-        // Исключаем анкету текущего пользователя
+        // Исключаем свою анкету
         if (currentUserId != null) {
             allForms.removeIf(form -> form.getUserId().equals(currentUserId));
         }
 
-        // Получаем имена пользователей и их интересы для отображения
         Map<Long, User> usersMap = new HashMap<>();
+        Map<Long, Double> avgRatingsMap = new HashMap<>();     // для хранения точного среднего
+        Map<Long, Integer> roundedRatingsMap = new HashMap<>(); // для хранения округленного среднего
+
         for (PersonalForm form : allForms) {
             try {
                 Optional<User> userOpt = userService.getUserById(form.getUserId());
                 userOpt.ifPresent(user -> usersMap.put(form.getUserId(), user));
+                double avg = ratingService.getAverageRatingForUser(form.getUserId());
+                int rounded = (int)Math.round(avg);
+
+                avgRatingsMap.put(form.getUserId(), avg);
+                roundedRatingsMap.put(form.getUserId(), rounded);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        // Получаем список всех интересов для фильтра
         List<Interest> allInterests = interestService.findAll();
 
         request.setAttribute("allForms", allForms);
         request.setAttribute("usersMap", usersMap);
+        request.setAttribute("avgRatingsMap", avgRatingsMap);
+        request.setAttribute("roundedRatingsMap", roundedRatingsMap);
         request.setAttribute("allInterests", allInterests);
         request.getRequestDispatcher("/WEB-INF/views/all_personal_forms.jsp").forward(request, response);
     }
 }
+

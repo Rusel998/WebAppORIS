@@ -16,7 +16,7 @@ public class ComplaintRowMapper implements RowMapper<Complaint> {
                 .complainantId(resultSet.getLong("complainantId"))
                 .offenderId(resultSet.getLong("offenderId"))
                 .reason(resultSet.getString("reason"))
-                .datetime(resultSet.getObject("dateTime", java.security.Timestamp.class))
+                .datetime(resultSet.getTimestamp("dateTime"))
                 .build();
     }
 }

@@ -29,16 +29,8 @@ public class MyFormUpdateInterestsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = (String) request.getSession().getAttribute("email");
-        if (email == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/login");
-            return;
-        }
 
         Optional<User> userOpt = userService.findByEmail(email);
-        if (!userOpt.isPresent()) {
-            response.sendRedirect(getServletContext().getContextPath() + "/login");
-            return;
-        }
         Long userId = userOpt.get().getId();
 
         // Собираем интересы из формы (передаются как чекбоксы)
