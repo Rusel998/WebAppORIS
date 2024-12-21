@@ -15,4 +15,5 @@ public class Complaint {
     private Long offenderId;
     private String reason;
     private Timestamp datetime;
+    private String status;
 }

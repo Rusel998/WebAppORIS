@@ -19,6 +19,7 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
     private final DataSource dataSource;
     private final RowMapper<Complaint> complaintRowMapper;
 
+    private final static String UPDATE_STATUS = "UPDATE complaint SET status = ? WHERE id = ?";
     private final static String DELETE = "DELETE FROM complaint WHERE id = ?";
     private final static String SAVE = "INSERT INTO complaint (complainantId, offenderId, reason, dateTime) VALUES (?, ?, ?, ?)";
     private final static String FIND_ALL = "SELECT * FROM complaint";
@@ -41,6 +42,17 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
         return Optional.empty();
     }
 
+    @Override
+    public boolean updateStatus(Long id, String status) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_STATUS)) {
+            preparedStatement.setString(1, status);
+            preparedStatement.setLong(2, id);
+            return preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public void save(Complaint complaint) {
         try (Connection connection = dataSource.getConnection();

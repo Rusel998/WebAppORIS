@@ -18,8 +18,6 @@
     <label>Gender:</label>
     <input type="text" name="gender" value="${form.gender}" required><br><br>
 
-    <label>Profile Views:</label>
-    <input type="number" name="profileviews" value="${form.profileViews}" required><br><br>
 
     <input type="submit" value="Save Changes">
 </form>

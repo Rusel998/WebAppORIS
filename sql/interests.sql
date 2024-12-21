@@ -3,14 +3,12 @@ CREATE TABLE interests (
                            id SERIAL PRIMARY KEY,
                            name VARCHAR(255) NOT NULL UNIQUE
 );
-
 DROP TABLE IF EXISTS user_interests;
 CREATE TABLE user_interests (
                                 id SERIAL PRIMARY KEY,
-                                formId BIGINT NOT NULL,
-                                interestid BIGINT NOT NULL,
-                                FOREIGN KEY (formId) REFERENCES personalform (id),
-                                FOREIGN KEY (interestid) REFERENCES interests (id),
-                                UNIQUE (formId, interestid)
+                                userId BIGINT NOT NULL,
+                                interestId BIGINT NOT NULL,
+                                FOREIGN KEY (userId) REFERENCES users(id),
+                                FOREIGN KEY (interestId) REFERENCES interests(id)
 );
 INSERT INTO interests (name) VALUES ('Программирование'), ('Игры'), ('Музыка');

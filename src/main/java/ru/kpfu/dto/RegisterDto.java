@@ -7,9 +7,8 @@ import lombok.*;
 @Getter
 @Builder
 @ToString
-public class UserDto {
-    private Long id;
+public class RegisterDto {
     private String username;
     private String email;
-    private String role;
+    private String password;
 }
