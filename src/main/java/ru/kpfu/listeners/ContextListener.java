@@ -1,19 +1,14 @@
 package ru.kpfu.listeners;
 
 import ru.kpfu.config.DataSourceConfiguration;
+import ru.kpfu.models.Rating;
 import ru.kpfu.repositories.mapper.Impl.*;
 import ru.kpfu.repositories.*;
 import ru.kpfu.repositories.impl.*;
 import ru.kpfu.security.SecurityService;
 import ru.kpfu.security.impl.SecurityServiceImpl;
-import ru.kpfu.services.InterestService;
-import ru.kpfu.services.PersonalFormService;
-import ru.kpfu.services.UserInterestsService;
-import ru.kpfu.services.UserService;
-import ru.kpfu.services.impl.InterestServiceImpl;
-import ru.kpfu.services.impl.PersonalFormServiceImpl;
-import ru.kpfu.services.impl.UserInterestsServiceImpl;
-import ru.kpfu.services.impl.UserServiceImpl;
+import ru.kpfu.services.*;
+import ru.kpfu.services.impl.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -48,8 +43,16 @@ public class ContextListener implements ServletContextListener {
                 new InterestRepositoryImpl(dataSource, new InterestRowMapper());
         UserInterestsRepository userInterestsRepository =
                 new UserInterestsRepositoryImpl(dataSource);
+        ComplaintRepository complaintRepository =
+                new ComplaintRepositoryImpl(dataSource, new ComplaintRowMapper());
+        RatingRepository ratingRepository =
+                new RatingRepositoryImpl(dataSource, new RatingRowMapper());
 
 
+        RatingService ratingService =
+                new RatingServiceImpl(ratingRepository);
+        ComplaintService complaintService =
+                new ComplaintServiceImpl(complaintRepository);
         UserInterestsService userInterestsService =
                 new UserInterestsServiceImpl(userInterestsRepository);
         InterestService interestService =
@@ -65,6 +68,8 @@ public class ContextListener implements ServletContextListener {
 
         ServletContext servletContext = sce.getServletContext();
 
+        servletContext.setAttribute("ratingService", ratingService);
+        servletContext.setAttribute("complaintService", complaintService);
         servletContext.setAttribute("userInterestsService", userInterestsService);
         servletContext.setAttribute("interestService", interestService);
         servletContext.setAttribute("personalFormService", personalFormService);

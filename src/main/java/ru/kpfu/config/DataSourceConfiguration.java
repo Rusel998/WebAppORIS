@@ -10,7 +10,6 @@ import java.util.Properties;
 @AllArgsConstructor
 public class DataSourceConfiguration {
     private Properties properties;
-
     public DataSource customDatasource(){
         try {
             Class.forName(properties.getProperty("database.driver-name"));

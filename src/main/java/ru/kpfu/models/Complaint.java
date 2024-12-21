@@ -2,8 +2,7 @@ package ru.kpfu.models;
 
 import lombok.*;
 
-import java.security.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @Setter

@@ -1,7 +1,7 @@
 package ru.kpfu.controllers;
 
+import ru.kpfu.dto.UserDto;
 import ru.kpfu.models.User;
-import ru.kpfu.repositories.UserRepository;
 import ru.kpfu.services.UserService;
 
 import javax.servlet.ServletException;
@@ -28,12 +28,24 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        UserDto userDTO = new UserDto(
+                request.getParameter("username"),
+                request.getParameter("email"),
+                request.getParameter("password")
+        );
 
-        User user = new User(null, username, email, password, null);
+        // Проверяем, не существует ли пользователь с таким email
+        if (userService.findByEmail(userDTO.getEmail()).isPresent()) {
+            // Пользователь уже существует
+            request.setAttribute("error", "User with this email already exists.");
+            request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
+            return;
+        }
+
+        // Преобразуем DTO в сущность
+        User user = userService.convertUserDtoToUser(userDTO);
         userService.addUser(user);
+
         response.sendRedirect(getServletContext().getContextPath() + "/login");
     }
 }

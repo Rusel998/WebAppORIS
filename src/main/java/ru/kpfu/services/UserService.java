@@ -1,5 +1,6 @@
 package ru.kpfu.services;
 
+import ru.kpfu.dto.UserDto;
 import ru.kpfu.models.User;
 
 import javax.naming.SizeLimitExceededException;
@@ -18,4 +19,6 @@ public interface UserService {
     boolean updateUser(User user);
 
     Optional<User> findByEmail(String email);
+
+    User convertUserDtoToUser(UserDto userDto);
 }

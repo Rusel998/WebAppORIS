@@ -17,11 +17,12 @@ public class RatingRepositoryImpl implements RatingRepository {
     private final DataSource dataSource;
     private final RowMapper<Rating> ratingRowMapper;
 
+    private final static String AVERAGE_RATING = "SELECT AVG(rating) as avg_rating FROM rating WHERE ratedUserId = ?";
     private final static String DELETE = "DELETE FROM rating WHERE id = ?";
-    private final static String SAVE = "INSERT INTO rating (userId, ratedUserId, rating, comment, date) VALUES (?, ?, ?, ?, ?)";
+    private final static String SAVE = "INSERT INTO rating (userId, ratedUserId, rating, date) VALUES (?, ?, ?, ?)";
     private final static String FIND_ALL = "SELECT * FROM rating";
     private final static String FIND_BY_ID = "SELECT * FROM rating WHERE id = ?";
-    private final static String UPDATE = "UPDATE rating SET rating = ?, comment = ?, date = ? WHERE id = ?";
+    private final static String UPDATE = "UPDATE rating SET rating = ?, date = ? WHERE id = ?";
 
     @Override
     public Optional<Rating> findById(Long id) {
@@ -41,6 +42,22 @@ public class RatingRepositoryImpl implements RatingRepository {
         return Optional.empty();
     }
 
+    @Override
+    public double getAverageRatingForUser(Long ratedUserId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement st = connection.prepareStatement(AVERAGE_RATING)) {
+            st.setLong(1, ratedUserId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("avg_rating");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error calculating average rating", e);
+        }
+        return 0.0;
+    }
+
+
 
     @Override
     public void save(Rating type) {
@@ -50,8 +67,7 @@ public class RatingRepositoryImpl implements RatingRepository {
             statement.setLong(1, type.getUserId());
             statement.setLong(2, type.getRatedUserId());
             statement.setInt(3, type.getRating());
-            statement.setString(4, type.getComment());
-            statement.setDate(5, (Date) type.getDate());
+            statement.setObject(4, type.getDate());
 
             statement.executeUpdate();
         }catch (SQLException e){
@@ -92,9 +108,8 @@ public class RatingRepositoryImpl implements RatingRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
 
             preparedStatement.setLong(1, type.getRating());
-            preparedStatement.setString(2, type.getComment());
-            preparedStatement.setDate(3, (Date) type.getDate());
-            preparedStatement.setLong(4, type.getId());
+            preparedStatement.setObject(2, type.getDate());
+            preparedStatement.setLong(3, type.getId());
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e){

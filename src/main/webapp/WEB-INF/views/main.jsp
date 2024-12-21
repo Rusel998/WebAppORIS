@@ -19,7 +19,7 @@
         </div>
         <div class="content">
             <h4>Dating is W</h4>
-            <h1>This site provides an <span class="highlight">Easy Way</span> to find someone special for your life.</h1>
+            <h1>This site provides an <span class="highlight">Easy Way</span> to find someone special in your life.</h1>
             <p>Having a loving partner by your side brings a sense of warmth, support, and joy that enriches every moment. A true partner understands and stands by you through both the highs and lows, bringing comfort and companionship that makes life’s journey brighter. This site offers the unique opportunity to connect with someone who could become that special person in your life—someone who listens, understands, and shares in the adventures ahead. Finding a loving partner is a gift, and with the right match, you can experience the joy of building a meaningful and lasting connection.</p>
             <button class="btndetail">Details</button>
         </div>
