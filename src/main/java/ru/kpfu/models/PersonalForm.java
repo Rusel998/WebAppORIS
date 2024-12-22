@@ -3,8 +3,6 @@ package ru.kpfu.models;
 
 import lombok.*;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @Setter
 @Getter
