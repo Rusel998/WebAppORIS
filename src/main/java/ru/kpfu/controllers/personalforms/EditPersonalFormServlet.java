@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.Optional;
 
@@ -61,13 +63,10 @@ public class EditPersonalFormServlet extends HttpServlet {
             response.sendRedirect(getServletContext().getContextPath() + "/profile");
             return;
         }
-
         Long formId = Long.parseLong(formIdParam);
 
-        // Поля из формы
         String bio = request.getParameter("bio");
         int age = Integer.parseInt(request.getParameter("age"));
-        Date birthdate = Date.valueOf(request.getParameter("birthdate"));
         String gender = request.getParameter("gender");
 
         Optional<PersonalForm> formOpt;
@@ -84,8 +83,17 @@ public class EditPersonalFormServlet extends HttpServlet {
         PersonalForm form = formOpt.get();
         form.setBio(bio);
         form.setAge(age);
-        form.setBirthdate(birthdate);
         form.setGender(gender);
+
+        Part photoPart = request.getPart("photo");
+        if (photoPart != null && photoPart.getSize() > 0) {
+            // Если пользователь загрузил новый файл
+            byte[] newPhotoBytes;
+            try (InputStream is = photoPart.getInputStream()) {
+                newPhotoBytes = is.readAllBytes();
+            }
+            form.setPhoto(newPhotoBytes);
+        }
 
         personalFormService.update(form);
 

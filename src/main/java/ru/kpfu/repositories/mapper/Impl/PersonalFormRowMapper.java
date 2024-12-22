@@ -15,6 +15,7 @@ public class PersonalFormRowMapper implements RowMapper<PersonalForm> {
                 .bio(resultSet.getString("bio"))
                 .age(resultSet.getInt("age"))
                 .gender(resultSet.getString("gender"))
+                .photo(resultSet.getBytes("photo"))
                 .build();
     }
 }

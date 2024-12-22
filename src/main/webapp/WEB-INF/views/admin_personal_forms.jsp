@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="_header.jsp" %>
 
@@ -10,8 +11,8 @@
         <th>ID</th>
         <th>Bio</th>
         <th>Age</th>
-        <th>Birthdate</th>
         <th>Gender</th>
+        <th>Photo</th> <!-- Добавляем новый столбец для фото -->
         <th>Actions</th>
     </tr>
     <c:forEach var="form" items="${personalForms}">
@@ -19,8 +20,18 @@
             <td>${form.id}</td>
             <td>${form.bio}</td>
             <td>${form.age}</td>
-            <td>${form.birthdate}</td>
             <td>${form.gender}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${form.photo != null}">
+                        <img src="<c:url value='/photo?formId=${form.id}'/>"
+                             alt="User Photo" width="100" />
+                    </c:when>
+                    <c:otherwise>
+                        No photo
+                    </c:otherwise>
+                </c:choose>
+            </td>
             <td>
                 <button onclick="deletePersonalForm(${form.id})">Delete</button>
             </td>
@@ -44,5 +55,5 @@
     }
 </script>
 
-
 <%@ include file="_footer.jsp" %>
+

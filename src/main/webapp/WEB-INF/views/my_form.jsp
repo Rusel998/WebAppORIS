@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="_header.jsp" %>
 
@@ -10,8 +11,13 @@
 <c:if test="${not empty form}">
     <p><strong>Bio:</strong> ${form.bio}</p>
     <p><strong>Age:</strong> ${form.age}</p>
-    <p><strong>Birthdate:</strong> ${form.birthdate}</p>
     <p><strong>Gender:</strong> ${form.gender}</p>
+
+    <!-- Если есть фото, выведем его -->
+    <c:if test="${form.photo != null}">
+        <img src="${pageContext.request.contextPath}/photo?formId=${form.id}"
+             style="max-width: 200px; height:auto;" />
+    </c:if>
 
     <a href="<c:url value='/personal-form-edit?id=${form.id}'/>">Редактировать мою анкету</a>
     <form action="<c:url value='/personal-form-delete'/>" method="post" style="display:inline;">

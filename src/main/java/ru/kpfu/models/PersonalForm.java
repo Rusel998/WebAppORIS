@@ -15,6 +15,6 @@ public class PersonalForm {
     private Long userId;
     private String bio;
     private Integer age;
-    private Date birthdate;
     private String gender;
+    private byte[] photo;
 }

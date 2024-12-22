@@ -5,7 +5,8 @@ CREATE TABLE personalform (
                               userid BIGINT UNIQUE NOT NULL,
                               bio TEXT,
                               age INT,
-                              birthdate DATE,
                               gender VARCHAR(10),
                               FOREIGN KEY (userid) REFERENCES users (id)
 );
+ALTER TABLE personalform
+    ADD COLUMN photo BYTEA;
