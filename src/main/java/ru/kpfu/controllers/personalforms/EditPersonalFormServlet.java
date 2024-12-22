@@ -69,7 +69,6 @@ public class EditPersonalFormServlet extends HttpServlet {
         int age = Integer.parseInt(request.getParameter("age"));
         Date birthdate = Date.valueOf(request.getParameter("birthdate"));
         String gender = request.getParameter("gender");
-        int profileViews = Integer.parseInt(request.getParameter("profileviews"));
 
         Optional<PersonalForm> formOpt;
         try {
@@ -87,7 +86,6 @@ public class EditPersonalFormServlet extends HttpServlet {
         form.setAge(age);
         form.setBirthdate(birthdate);
         form.setGender(gender);
-        form.setProfileViews(profileViews);
 
         personalFormService.update(form);
 

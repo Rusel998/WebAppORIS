@@ -12,7 +12,6 @@
     <p><strong>Age:</strong> ${form.age}</p>
     <p><strong>Birthdate:</strong> ${form.birthdate}</p>
     <p><strong>Gender:</strong> ${form.gender}</p>
-    <p><strong>Profile Views:</strong> ${form.profileViews}</p>
 
     <a href="<c:url value='/personal-form-edit?id=${form.id}'/>">Редактировать мою анкету</a>
     <form action="<c:url value='/personal-form-delete'/>" method="post" style="display:inline;">

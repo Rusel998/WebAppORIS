@@ -12,4 +12,6 @@ public interface ComplaintService {
     void save(Complaint complaint);
     boolean update(Complaint complaint);
     boolean delete(Long id);
+
+    boolean updateStatus(Long id, String status);
 }

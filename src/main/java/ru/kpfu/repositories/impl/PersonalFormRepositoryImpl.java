@@ -24,8 +24,8 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
     private final static String FIND_USER_BY_ID =  "SELECT * FROM personalform WHERE userid = ?";
     private final static String FIND_BY_ID = "SELECT * FROM personalform WHERE id = ?";
     private final static String FIND_ALL = "SELECT * FROM personalform";
-    private final static String SAVE = "INSERT INTO personalform (userid, bio, age, birthdate, gender, profileviews) VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE = "UPDATE personalform SET bio = ?, age = ?, birthdate = ?, gender = ?, profileviews = ? WHERE id = ?";
+    private final static String SAVE = "INSERT INTO personalform (userid, bio, age, birthdate, gender) VALUES (?, ?, ?, ?, ?)";
+    private final static String UPDATE = "UPDATE personalform SET bio = ?, age = ?, birthdate = ?, gender = ? WHERE id = ?";
     private final static String DELETE = "DELETE FROM personalform WHERE id = ?";
 
     @Override
@@ -66,9 +66,6 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
 
     @Override
     public List<PersonalForm> findAllByInterestId(Long interestId) {
-        // Запрос выберет все анкеты пользователей,
-        // у которых есть связь в user_interests с данным interestId
-
         List<PersonalForm> forms = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_INTEREST_ID)) {
@@ -110,7 +107,6 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
             statement.setInt(3, personalForm.getAge());
             statement.setDate(4, new java.sql.Date(personalForm.getBirthdate().getTime()));
             statement.setString(5, personalForm.getGender());
-            statement.setInt(6, personalForm.getProfileViews());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,8 +123,7 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
             preparedStatement.setInt(2, personalForm.getAge());
             preparedStatement.setDate(3, (Date) personalForm.getBirthdate());
             preparedStatement.setString(4, personalForm.getGender());
-            preparedStatement.setInt(5, personalForm.getProfileViews());
-            preparedStatement.setLong(6, personalForm.getId());
+            preparedStatement.setLong(5, personalForm.getId());
 
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {

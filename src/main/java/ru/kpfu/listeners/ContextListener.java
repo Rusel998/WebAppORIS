@@ -1,12 +1,9 @@
 package ru.kpfu.listeners;
 
 import ru.kpfu.config.DataSourceConfiguration;
-import ru.kpfu.models.Rating;
 import ru.kpfu.repositories.mapper.Impl.*;
 import ru.kpfu.repositories.*;
 import ru.kpfu.repositories.impl.*;
-import ru.kpfu.security.SecurityService;
-import ru.kpfu.security.impl.SecurityServiceImpl;
 import ru.kpfu.services.*;
 import ru.kpfu.services.impl.*;
 
@@ -62,9 +59,6 @@ public class ContextListener implements ServletContextListener {
         UserService userService =
                 new UserServiceImpl(userRepository);
 
-        SecurityService securityService =
-                new SecurityServiceImpl(userService);
-
 
         ServletContext servletContext = sce.getServletContext();
 
@@ -74,6 +68,5 @@ public class ContextListener implements ServletContextListener {
         servletContext.setAttribute("interestService", interestService);
         servletContext.setAttribute("personalFormService", personalFormService);
         servletContext.setAttribute("userService", userService);
-        servletContext.setAttribute("securityService", securityService);
     }
 }

@@ -2,18 +2,25 @@ package ru.kpfu.services.impl;
 
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
+import ru.kpfu.dto.RegisterDto;
 import ru.kpfu.dto.UserDto;
 import ru.kpfu.models.User;
 import ru.kpfu.repositories.UserRepository;
 import ru.kpfu.services.UserService;
 
 import javax.naming.SizeLimitExceededException;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 
     @Override
     public void addUser(User user) {
@@ -23,15 +30,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> validateUser(String email, String password) {
+    public UserDto validateUser(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (BCrypt.checkpw(password, user.getPassword())) {
-                return Optional.of(user);
+                return convertUserToDto(user);
             }
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
@@ -55,14 +62,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User convertUserDtoToUser(UserDto userDto) {
+    public User convertFormDtoToUser(RegisterDto registerDto) {
         return new User(
                 null,
-                userDto.getUsername(),
-                userDto.getEmail(),
-                userDto.getPassword(),
+                registerDto.getUsername(),
+                registerDto.getEmail(),
+                registerDto.getPassword(),
                 null
         );
+    }
+
+    @Override
+    public UserDto convertUserToDto(User user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .build();
     }
 }
 

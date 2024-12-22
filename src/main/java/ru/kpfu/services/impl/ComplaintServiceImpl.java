@@ -36,4 +36,9 @@ public class ComplaintServiceImpl implements ComplaintService {
     public boolean delete(Long id) {
         return complaintRepository.delete(id);
     }
+
+    @Override
+    public boolean updateStatus(Long id, String status) {
+        return complaintRepository.updateStatus(id, status);
+    }
 }

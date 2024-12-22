@@ -17,5 +17,4 @@ public class PersonalForm {
     private Integer age;
     private Date birthdate;
     private String gender;
-    private Integer profileViews;
 }

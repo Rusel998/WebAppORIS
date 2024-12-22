@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="_header.jsp"%>
 
-    <p><strong>Username:</strong> ${user.get("username")}</p>
-    <p><strong>Email:</strong> ${user.get("email")}</p>
+    <p><strong>Username:</strong> ${username}</p>
+    <p><strong>Email:</strong> ${email}</p>
     <form action="<c:url value="logout"/>" method="get">
         <button type="submit">Log Out</button>
     </form>

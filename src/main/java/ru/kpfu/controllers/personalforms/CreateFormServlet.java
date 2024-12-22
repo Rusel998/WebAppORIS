@@ -63,7 +63,6 @@ public class CreateFormServlet extends HttpServlet {
 
         int age = Integer.parseInt(ageParam);
         Date birthdate = Date.valueOf(birthdateParam);
-        int profileViews = 0; // Можно поставить по умолчанию 0
 
         PersonalForm form = PersonalForm.builder()
                 .userId(userId)
@@ -71,7 +70,6 @@ public class CreateFormServlet extends HttpServlet {
                 .age(age)
                 .birthdate(birthdate)
                 .gender(gender)
-                .profileViews(profileViews)
                 .build();
 
         personalFormService.save(form);
