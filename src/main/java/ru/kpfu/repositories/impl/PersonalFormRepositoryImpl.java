@@ -24,8 +24,8 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
     private final static String FIND_USER_BY_ID =  "SELECT * FROM personalform WHERE userid = ?";
     private final static String FIND_BY_ID = "SELECT * FROM personalform WHERE id = ?";
     private final static String FIND_ALL = "SELECT * FROM personalform";
-    private final static String SAVE = "INSERT INTO personalform (userid, bio, age, birthdate, gender) VALUES (?, ?, ?, ?, ?)";
-    private final static String UPDATE = "UPDATE personalform SET bio = ?, age = ?, birthdate = ?, gender = ? WHERE id = ?";
+    private final static String SAVE = "INSERT INTO personalform (userid, bio, age, gender, photo) VALUES (?, ?, ?, ?, ?)";
+    private final static String UPDATE = "UPDATE personalform SET bio = ?, age = ?, gender = ?, photo = ? WHERE id = ?";
     private final static String DELETE = "DELETE FROM personalform WHERE id = ?";
 
     @Override
@@ -105,8 +105,12 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
             statement.setLong(1, personalForm.getUserId());
             statement.setString(2, personalForm.getBio());
             statement.setInt(3, personalForm.getAge());
-            statement.setDate(4, new java.sql.Date(personalForm.getBirthdate().getTime()));
-            statement.setString(5, personalForm.getGender());
+            statement.setString(4, personalForm.getGender());
+            if (personalForm.getPhoto() != null) {
+                statement.setBytes(5, personalForm.getPhoto());
+            } else {
+                statement.setNull(5, Types.BINARY);
+            }
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -121,8 +125,13 @@ public class PersonalFormRepositoryImpl implements PersonalFormRepository {
 
             preparedStatement.setString(1, personalForm.getBio());
             preparedStatement.setInt(2, personalForm.getAge());
-            preparedStatement.setDate(3, (Date) personalForm.getBirthdate());
-            preparedStatement.setString(4, personalForm.getGender());
+            preparedStatement.setString(3, personalForm.getGender());
+
+            if (personalForm.getPhoto() != null) {
+                preparedStatement.setBytes(4, personalForm.getPhoto());
+            } else {
+                preparedStatement.setNull(4, Types.BINARY);
+            }
             preparedStatement.setLong(5, personalForm.getId());
 
             return preparedStatement.executeUpdate() > 0;

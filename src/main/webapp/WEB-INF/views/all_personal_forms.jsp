@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="_header.jsp" %>
 
@@ -22,6 +23,11 @@
         <div style="border:1px solid #ccc; width:200px; padding:10px; text-align:center;">
             <h4>${user.username}, ${form.age}</h4>
             <p>${form.bio}</p>
+
+            <c:if test="${form.photo != null}">
+                <img src="<c:url value='/photo?formId=${form.id}'/>" alt="User Photo" width="100" />
+            </c:if>
+
             <p>${user.email}</p>
 
             <c:choose>
@@ -45,8 +51,8 @@
                 <a href="<c:url value='/complaint-create?id=${form.userId}'/>">Пожаловаться</a>
             </c:if>
         </div>
-
     </c:forEach>
 </div>
 
 <%@ include file="_footer.jsp" %>
+

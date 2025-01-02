@@ -3,8 +3,6 @@ package ru.kpfu.models;
 
 import lombok.*;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @Setter
 @Getter
@@ -15,6 +13,6 @@ public class PersonalForm {
     private Long userId;
     private String bio;
     private Integer age;
-    private Date birthdate;
     private String gender;
+    private byte[] photo;
 }
