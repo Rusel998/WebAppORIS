@@ -11,4 +11,5 @@ public interface InterestService {
     void save(Interest interest);
     boolean update(Interest interest);
     boolean delete(Long id);
+    boolean addInterestByAdmin(String name);
 }

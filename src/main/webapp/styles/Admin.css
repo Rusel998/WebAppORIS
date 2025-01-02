@@ -1,0 +1,124 @@
+.admin-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff2f2;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffd6d6;
+    font-family: 'Poppins', sans-serif;
+}
+
+.admin-container h1,
+.admin-container h2 {
+    color: #e91e63;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.admin-container h1 {
+    font-size: 2rem;
+}
+.admin-container h2 {
+    font-size: 1.6rem;
+}
+
+.admin-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.admin-nav ul li {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.admin-nav ul li a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #e91e63, #ff7597);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+    min-width: 150px;
+}
+.admin-nav ul li a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(233, 30, 99, 0.4);
+}
+
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.admin-table th,
+.admin-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+.admin-table th {
+    background: #ffe6e6;
+    color: #333;
+    font-weight: 600;
+}
+
+.admin-btn {
+    background: #e91e63;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.admin-btn:hover {
+    background: #cc1651;
+}
+.danger-btn {
+    background: #ff6868;
+}
+.danger-btn:hover {
+    background: #e64b4b;
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.admin-form label {
+    font-weight: 600;
+    color: #444;
+}
+.admin-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.admin-form input[type="text"]:focus {
+    border-color: #e91e63;
+    outline: none;
+}

@@ -16,6 +16,7 @@ import java.util.List;
 public class UserInterestsRepositoryImpl implements UserInterestsRepository {
     private final DataSource dataSource;
 
+    private final static String DELETE_BY_INTER_ID = "DELETE from user_interests where interestid = ?";
     private final static String CLEAR = "DELETE FROM user_interests WHERE userid = ?";
     private final static String FIND_BY_USER_ID = "SELECT i.* FROM user_interests ui JOIN interests i ON ui.interestid = i.id WHERE ui.userid = ?";
     private final static String SAVE = "INSERT INTO user_interests (userid, interestid) VALUES (?, ?)";
@@ -37,7 +38,6 @@ public class UserInterestsRepositoryImpl implements UserInterestsRepository {
 
     @Override
     public void saveUserInterests(Long userId, List<Long> interestIds) {
-        // Сначала очистим старые интересы:
         clearUserInterests(userId);
 
         if (interestIds == null || interestIds.isEmpty()) {
@@ -63,6 +63,17 @@ public class UserInterestsRepositoryImpl implements UserInterestsRepository {
             st.setLong(1, userId);
             st.executeUpdate();
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteUserInterests(Long interestId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_INTER_ID)){
+            preparedStatement.setLong(1, interestId);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
             throw new RuntimeException(e);
         }
     }

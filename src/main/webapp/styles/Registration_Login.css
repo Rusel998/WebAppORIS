@@ -10,8 +10,6 @@ html,body{
     width: 100%;
     place-items: center;
     background: #f2f2f2;
-    /*  background: linear-gradient(-135deg, #c850c0, #4158d0);*/
-
 }
 ::selection{
     background: #4158d0;
@@ -114,8 +112,8 @@ form .login-link a:hover{
 .wrapper form .show-password-container {
     display: flex;
     align-items: center;
-    margin-top: 10px; /* Увеличенный отступ сверху, чтобы опустить чекбокс */
-    padding-left: 20px; /* Смещение от края поля */
+    margin-top: 10px;
+    padding-left: 20px;
     color: #4158d0;
     font-size: 15px;
     cursor: pointer;

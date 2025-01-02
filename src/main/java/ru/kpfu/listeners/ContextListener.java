@@ -1,36 +1,30 @@
 package ru.kpfu.listeners;
 
-import ru.kpfu.config.DataSourceConfiguration;
 import ru.kpfu.repositories.mapper.Impl.*;
 import ru.kpfu.repositories.*;
 import ru.kpfu.repositories.impl.*;
 import ru.kpfu.services.*;
 import ru.kpfu.services.impl.*;
-
+import ru.kpfu.util.DriverManagerDataSource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.Properties;
 
 @WebListener
 public class ContextListener implements ServletContextListener {
+    private static final String POSTGRE_DRIVER = "org.postgresql.Driver";
+    private static final String POSTGRE_URL = "jdbc:postgresql://localhost:5432/WebAppORIS";
+    private static final String POSTGRE_USER = "postgres";
+    private static final String POSTGRE_PASSWORD = "998123";
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        Properties properties = new Properties();
-        try {
-            properties.load(Thread.currentThread()
-                    .getContextClassLoader()
-                    .getResourceAsStream("application.properties"));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load application.properties", e);
-        }
 
-        DataSourceConfiguration configuration =
-                new DataSourceConfiguration(properties);
-        DataSource dataSource = configuration.customDatasource();
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriver(POSTGRE_DRIVER);
+        dataSource.setUrl(POSTGRE_URL);
+        dataSource.setUsername(POSTGRE_USER);
+        dataSource.setPassword(POSTGRE_PASSWORD);
 
         UserRepository userRepository =
                 new UserRepositoryImpl(dataSource, new UserRowMapper());

@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    background: #fff;
+    box-shadow: 0 0 60px #ffb1b1;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+.logo_of_the_site {
+    width: 80px;
+    height: auto;
+}
+.site-name {
+    font-size: 1.5rem;
+    color: #e91e63;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.header ul {
+    display: flex;
+    margin-left: auto;
+}
+
+.header ul li {
+    margin: 0 16px;
+}
+
+.header ul li a {
+    color: #1c1c1c;
+    font-size: 1rem;
+    transition: color 0.4s;
+}
+
+.header ul li a:hover {
+    color: #4d6c8e;
+}

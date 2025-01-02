@@ -20,5 +20,10 @@ public class UserInterestsServiceImpl implements UserInterestsService {
     public void setUserInterests(Long userId, List<Long> interestIds) {
         userInterestsRepository.saveUserInterests(userId, interestIds);
     }
+
+    @Override
+    public void deleteUserInterests(Long interestId) {
+        userInterestsRepository.deleteUserInterests(interestId);
+    }
 }
 
