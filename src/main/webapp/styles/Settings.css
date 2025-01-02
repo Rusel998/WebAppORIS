@@ -1,0 +1,84 @@
+.settings-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff2f2;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffd6d6;
+    font-family: 'Poppins', sans-serif;
+}
+.settings-container h2 {
+    font-size: 2rem;
+    color: #e91e63;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.settings-container h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-form label {
+    font-weight: 600;
+    color: #444;
+}
+.settings-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+.settings-form input[type="text"]:focus {
+    border-color: #e91e63;
+    outline: none;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+
+.cancel-btn {
+    background: #999;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.cancel-btn:hover {
+    background: #777;
+}
+
+.save-btn {
+    background: #e91e63;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.save-btn:hover {
+    background: #cc1651;
+}

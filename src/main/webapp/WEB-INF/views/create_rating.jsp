@@ -1,30 +1,46 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="_header.jsp" %>
 
-<h2>Оценить анкету</h2>
+<link rel="stylesheet" href="<c:url value='/styles/RatingCreate.css'/>" />
 
-<form action="<c:url value='/rating-create'/>" method="post">
-    <input type="hidden" name="ratedUserId" value="${ratedUserId}"/>
-    <p>Выберите оценку:</p>
-    <label>
-        <input type="radio" name="rating" value="1" required/> 1
-    </label><br>
-    <label>
-        <input type="radio" name="rating" value="2"/> 2
-    </label><br>
-    <label>
-        <input type="radio" name="rating" value="3"/> 3
-    </label><br>
-    <label>
-        <input type="radio" name="rating" value="4"/> 4
-    </label><br>
-    <label>
-        <input type="radio" name="rating" value="5"/> 5
-    </label><br><br>
-    <button type="submit">Отправить</button>
-    <a href="<c:url value='/personal-forms'/>">Отмена</a>
-</form>
+<div class="rating-container">
+    <h2>Оценить анкету</h2>
+    <h3>Пожалуйста, выберите оценку</h3>
+
+    <c:if test="${not empty error}">
+        <p class="error-message">${error}</p>
+    </c:if>
+
+    <form action="<c:url value='/rating-create'/>" method="post" class="rating-form">
+        <input type="hidden" name="ratedUserId" value="${ratedUserId}"/>
+
+        <label class="rating-option">
+            <input type="radio" name="rating" value="1" required/>
+            <span>1</span>
+        </label>
+        <label class="rating-option">
+            <input type="radio" name="rating" value="2"/>
+            <span>2</span>
+        </label>
+        <label class="rating-option">
+            <input type="radio" name="rating" value="3"/>
+            <span>3</span>
+        </label>
+        <label class="rating-option">
+            <input type="radio" name="rating" value="4"/>
+            <span>4</span>
+        </label>
+        <label class="rating-option">
+            <input type="radio" name="rating" value="5"/>
+            <span>5</span>
+        </label>
+
+        <div class="button-row">
+            <button type="submit" class="submit-btn">Отправить</button>
+            <a href="<c:url value='/personal-forms'/>" class="cancel-link">Отмена</a>
+        </div>
+    </form>
+</div>
 
 <%@ include file="_footer.jsp" %>

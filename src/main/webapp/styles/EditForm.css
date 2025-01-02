@@ -1,0 +1,73 @@
+.edit-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff2f2;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffd6d6;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+
+.edit-container h2 {
+    font-size: 1.8rem;
+    color: #e91e63;
+    margin-bottom: 10px;
+}
+.edit-container h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 auto;
+    max-width: 400px;
+    text-align: left;
+}
+
+.edit-form label {
+    font-weight: 600;
+    color: #444;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="number"],
+.edit-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.edit-form input[type="text"]:focus,
+.edit-form input[type="number"]:focus,
+.edit-form input[type="file"]:focus {
+    border-color: #e91e63;
+    outline: none;
+}
+
+.edit-btn {
+    align-self: flex-end;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    background: #e91e63;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+.edit-btn:hover {
+    background: #cc1651;
+}

@@ -8,4 +8,5 @@ public interface UserInterestsRepository {
     List<Interest> findByUserId(Long userId);
     void saveUserInterests(Long userId, List<Long> interestIds);
     void clearUserInterests(Long userId);
+    void deleteUserInterests(Long interestId);
 }

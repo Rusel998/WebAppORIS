@@ -19,9 +19,15 @@ public class DriverManagerDataSource implements DataSource {
     private String url;
     private String username;
     private String password;
+    private String driver;
 
     @Override
     public Connection getConnection() throws SQLException {
+        try {
+            Class.forName(driver);
+        }catch (ClassNotFoundException e) {
+            throw new SQLException(e);
+        }
         return DriverManager.getConnection(url, username, password);
     }
 

@@ -28,6 +28,4 @@ public interface UserService {
 
     UserDto convertUserToDto(User user);
 
-
-
 }

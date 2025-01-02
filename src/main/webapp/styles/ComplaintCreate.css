@@ -1,0 +1,102 @@
+/* complaintCreate.css */
+
+/* Общий контейнер */
+.complaint-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff2f2; /* светло-розовый фон */
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffd6d6;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+/* Заголовки */
+.complaint-container h2 {
+    font-size: 1.8rem;
+    color: #e91e63;
+    margin-bottom: 10px;
+}
+.complaint-container h3 {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Ошибки */
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+}
+
+/* Форма жалобы */
+.complaint-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 0 auto;
+    max-width: 400px;
+    text-align: left;  /* чтобы метки, поля были по левому краю */
+}
+
+.complaint-form label {
+    font-weight: 600;
+    color: #444;
+}
+
+/* Поле ввода */
+.complaint-form textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* пользователь может растягивать по вертикали */
+}
+.complaint-form textarea:focus {
+    border-color: #e91e63;
+    outline: none;
+}
+
+/* Блок кнопок (Отправить, Отмена) */
+.button-row {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end; /* кнопки справа */
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Кнопка "Отправить жалобу" */
+.submit-btn {
+    background: #e91e63;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.submit-btn:hover {
+    background: #cc1651;
+}
+
+/* Ссылка "Отмена" */
+.cancel-link {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #555;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+}
+.cancel-link:hover {
+    background: #eee;
+    color: #333;
+}

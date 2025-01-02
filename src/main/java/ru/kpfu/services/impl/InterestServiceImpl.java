@@ -36,4 +36,15 @@ public class InterestServiceImpl implements InterestService {
     public boolean delete(Long id) {
         return interestRepository.delete(id);
     }
+
+    @Override
+    public boolean addInterestByAdmin(String name) {
+        Optional<Interest> existing = interestRepository.findByName(name);
+        if (existing.isPresent()) {
+            return false;
+        } else {
+            interestRepository.save(new Interest(null, name));
+            return true;
+        }
+    }
 }

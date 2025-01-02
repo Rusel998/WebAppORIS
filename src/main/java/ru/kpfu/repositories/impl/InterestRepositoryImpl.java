@@ -16,6 +16,7 @@ public class InterestRepositoryImpl implements InterestRepository {
     private final DataSource dataSource;
     private final RowMapper<Interest> rowMapper;
 
+    private static final String SQL_SELECT_BY_NAME = "SELECT * FROM interests WHERE name = ?";
     private static final String FIND_BY_ID = "SELECT * FROM interests WHERE id = ?";
     private static final String FIND_ALL = "SELECT * FROM interests";
     private static final String SAVE = "INSERT INTO interests (name) VALUES (?)";
@@ -35,6 +36,26 @@ public class InterestRepositoryImpl implements InterestRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error while finding interest by ID", e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Interest> findByName(String name) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL_SELECT_BY_NAME)) {
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Interest interest = new Interest(
+                            rs.getLong("id"),
+                            rs.getString("name")
+                    );
+                    return Optional.of(interest);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error finding interest by name", e);
         }
         return Optional.empty();
     }
