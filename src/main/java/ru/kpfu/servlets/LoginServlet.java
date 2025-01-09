@@ -48,7 +48,6 @@ public class LoginServlet extends HttpServlet {
                 }
             }
 
-            request.setAttribute("email", request.getParameter("email"));
             response.sendRedirect(getServletContext().getContextPath() + "/login");
         }catch (Exception e){
             throw new RuntimeException(e);

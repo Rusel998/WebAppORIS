@@ -37,7 +37,7 @@ public class RegistrationServlet extends HttpServlet {
 
 
             if (userService.findByEmail(registerDto.getEmail()).isPresent()) {
-                request.setAttribute("error", "User with this email already exists.");
+                request.setAttribute("error", "Пользователь с этой почтой уже существует");
                 request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
                 return;
             }

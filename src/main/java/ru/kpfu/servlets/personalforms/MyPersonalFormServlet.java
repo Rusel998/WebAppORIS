@@ -37,10 +37,6 @@ public class MyPersonalFormServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String email = (String) request.getSession().getAttribute("email");
-            if (email == null) {
-                response.sendRedirect(getServletContext().getContextPath() + "/login");
-                return;
-            }
 
             Optional<User> userOpt = userService.findByEmail(email);
             if (!userOpt.isPresent()) {

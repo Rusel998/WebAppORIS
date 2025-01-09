@@ -18,7 +18,7 @@
         <input type="text" name="username" value="${currentUser.username}" required />
 
         <label>Почта:</label>
-        <input type="text" name="email" value="${currentUser.email}" required />
+        <input type="email" name="email" value="${currentUser.email}" required />
 
         <div class="button-row">
             <button type="submit" name="action" value="cancel" class="cancel-btn">

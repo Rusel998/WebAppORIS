@@ -2,14 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="_header.jsp" %>
 
-<!-- Подключаем стили, аналогичные createForm.css, но для редактирования -->
 <link rel="stylesheet" href="<c:url value='/styles/EditForm.css'/>" />
 
 <div class="edit-container">
     <h2>Изменение анкеты</h2>
     <h3>Отредактируйте поля анкеты и сохраните</h3>
 
-    <!-- Возможное сообщение об ошибке, если есть -->
     <c:if test="${not empty error}">
         <p class="error-message">${error}</p>
     </c:if>

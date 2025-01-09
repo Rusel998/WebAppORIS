@@ -19,7 +19,7 @@
 
     <form action="<c:url value='/login'/>" method="POST">
         <div class="field">
-            <input type="text" name="email" required>
+            <input type="email" name="email" required>
             <label>Почта</label>
         </div>
 

@@ -31,7 +31,7 @@
                         <p><strong>О себе:</strong> ${form.bio}</p>
                         <p><strong>Возраст:</strong> ${form.age}</p>
                         <p><strong>Пол:</strong> ${form.gender}</p>
-                    </div>
+                    </div>  
                 </c:if>
             </div>
 

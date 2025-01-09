@@ -2,14 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="_header.jsp" %>
 
-<!-- Подключаем стили complaintCreate.css -->
 <link rel="stylesheet" href="<c:url value='/styles/ComplaintCreate.css'/>" />
 
 <div class="complaint-container">
     <h2>Подать жалобу</h2>
     <h3>Опишите причину жалобы</h3>
 
-    <!-- Возможное сообщение об ошибке -->
     <c:if test="${not empty error}">
         <p class="error-message">${error}</p>
     </c:if>

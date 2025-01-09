@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../_header.jsp" %>
 
-<!-- Подключаем стили администратора -->
 <link rel="stylesheet" href="<c:url value='/styles/Admin.css'/>" />
 
 <div class="admin-container">

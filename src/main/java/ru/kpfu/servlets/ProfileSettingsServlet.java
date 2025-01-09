@@ -59,7 +59,7 @@ public class ProfileSettingsServlet extends HttpServlet {
 
             if (newUsername == null || newUsername.isEmpty() ||
                     newEmail == null || newEmail.isEmpty()) {
-                request.setAttribute("error", "All fields are required!");
+                request.setAttribute("error", "Нужно заполнить все поля!");
                 doGet(request, response);
                 return;
             }

@@ -27,7 +27,7 @@ public class PhotoServlet extends HttpServlet {
         try {
             String formIdParam = request.getParameter("formId");
             if (formIdParam == null) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing formId");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Missing formId");
                 return;
             }
             Long formId = Long.parseLong(formIdParam);
