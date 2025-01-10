@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="_header.jsp" %>
 
-<!-- Подключаем стили -->
 <link rel="stylesheet" href="<c:url value='/styles/AllForms.css'/>" />
 
 <div class="allforms-container">
