@@ -26,7 +26,11 @@
         <input type="number" name="age" id="age" value="${form.age}" required />
 
         <label for="gender">Пол:</label>
-        <input type="text" name="gender" id="gender" value="${form.gender}" required />
+        <select name="gender" id="gender" required>
+            <option value="Мужской" ${form.gender == 'Мужской' ? 'selected' : ''}>Мужской</option>
+            <option value="Женский" ${form.gender == 'Женский' ? 'selected' : ''}>Женский</option>
+            <option value="Другое" ${form.gender == 'Другое' ? 'selected' : ''}>Другое</option>
+        </select>
 
         <label for="photo">Изменить фото:</label>
         <input type="file" name="photo" id="photo" accept="image/*" />

@@ -20,7 +20,11 @@
         <input type="number" name="age" id="age" required />
 
         <label for="gender">Пол:</label>
-        <input type="text" name="gender" id="gender" required />
+        <select name="gender" id="gender" required>
+            <option value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+            <option value="Другое">Другое</option>
+        </select>
 
         <label for="photo">Фото:</label>
         <input type="file" name="photo" id="photo" accept="image/*" />

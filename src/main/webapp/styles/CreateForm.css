@@ -50,6 +50,19 @@
     border-color: #e91e63;
     outline: none;
 }
+.create-form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.create-form select:focus {
+    border-color: #e91e63;
+    outline: none;
+}
 
 .create-btn {
     align-self: flex-end;

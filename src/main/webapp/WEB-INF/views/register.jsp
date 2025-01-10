@@ -19,12 +19,12 @@
 
     <form action="<c:url value='/register'/>" method="POST">
         <div class="field">
-            <input type="email" name="username" required>
+            <input type="text" name="username" required>
             <label>Никнейм</label>
         </div>
 
         <div class="field">
-            <input type="text" name="email" required>
+            <input type="email" name="email" required>
             <label>Почта</label>
         </div>
 

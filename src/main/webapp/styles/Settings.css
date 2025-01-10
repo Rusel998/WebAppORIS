@@ -53,6 +53,17 @@
     justify-content: space-between;
     margin-top: 10px;
 }
+.settings-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+.settings-form input[type="email"]:focus {
+    border-color: #e91e63;
+    outline: none;
+}
 
 
 .cancel-btn {

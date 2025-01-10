@@ -9,7 +9,6 @@
     text-align: center;
 }
 
-
 .edit-container h2 {
     font-size: 1.8rem;
     color: #e91e63;
@@ -42,16 +41,19 @@
 
 .edit-form input[type="text"],
 .edit-form input[type="number"],
-.edit-form input[type="file"] {
+.edit-form input[type="file"],
+.edit-form select {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 .edit-form input[type="text"]:focus,
 .edit-form input[type="number"]:focus,
-.edit-form input[type="file"]:focus {
+.edit-form input[type="file"]:focus,
+.edit-form select:focus {
     border-color: #e91e63;
     outline: none;
 }
